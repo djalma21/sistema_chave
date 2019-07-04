@@ -1,7 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
+from django.contrib.auth.models import User
 
 
 class Chave(models.Model):
@@ -11,28 +9,19 @@ class Chave(models.Model):
     def __str__(self):
         return self.nome
 
-class Usuario(models.Model):
-    nome = models.CharField(max_length=100)
-    cargo = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nome
-
 class Emprestimo(models.Model):
-    nome = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     chave = models.ForeignKey(Chave, on_delete=models.CASCADE)
     horas_pegou = models.TimeField()
 
     def __str__(self):
-        return self.nome
-
+        return f' {self.user} - {self.chave} - {self.horas_pegou} '
 class Devolver(models.Model):
-    nome = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     chave = models.ForeignKey(Chave, on_delete=models.CASCADE)
     horas_devolveu = models.TimeField()
 
     def __str__(self):
-        return self.nome
-
+        return f'{self.user} - {self.chave} - {self.horas_devolveu}'
 
 
